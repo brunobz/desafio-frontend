@@ -1,60 +1,73 @@
-# 🏁 Desafio de programação - Vaga Front-End 🏁
+# React + TypeScript + Vite
 
-**Este teste tem por objetivos principais avaliar:**
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-- Habilidades no desenvolvimento frontend
-- Conceitos de UI e UX aplicados
+Currently, two official plugins are available:
 
-****
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Instruções
+## React Compiler
 
-- Primeiro, faça um fork deste projeto para sua conta no Github (crie uma se você não possuir).
-- Em seguida, implemente o projeto tal qual descrito abaixo, em seu clone local.
-- Por fim, envie via email um arquivo patch para seu contato na Bycoders_.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-****
+## Expanding the ESLint configuration
 
-## Desafio 🚀 🚀 🚀
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-![screen](/image.png)
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-O desafio consiste em criar um projeto com o design da imagem **acima**, utilizando a [API do YouTube](https://developers.google.com/youtube/v3)
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-Utilize a [documentação](https://developers.google.com/youtube/v3/docs) para se orientar em como criar uma conta, logar no app, listar os vídeos do usuário, se inscrever em canais, enviar vídeos, ou o que mais você precisar.
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-O layout da **home** não precisa ser exatamente como o do wireframe. Você pode ficar a vontade para exibir os conteúdos/vídeos que achar melhor, desde que qualquer informação (vídeo, texto, cores, imagens) sejam exibidos de maneira organizada e bem distribuida entre a tela, fornecendo uma boa experiência para o usuário.
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-**Antes de iniciar o teste**
-1. Crie um projeto no [console de desenvolvedor](https://console.developers.google.com/projectcreate) da **Google**
-2. Ative a [YouTube Data API v3](https://console.developers.google.com/apis/api/youtube.googleapis.com/overview) nele
-3. Crie uma credencial de acesso para que seu app possa se comunicar com a API
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-**Requisitos esperados na entrega do teste**
-
-- [ ] Fornecer um mecanismo para o usuário poder pesquisar vídeos
-- [ ] Possuir home page que exiba algum conteúdo interessante para uma plataforma de vídeos
-- [ ] Fornecer uma estrutura de gerência do estado da aplicação
-- [ ] Possuir histórico das buscas realizadas (persistir localmente)
-
-**Requisitos extras** 
-
-- [ ] Permitir cadastro de usuário / login através da API do YouTube + OAuth2
-- [ ] Permitir upload de vídeo para a API do YouTube
-
-****
-
-## Pontos principais
-
-- Clean code
-- Conhecimento de boas práticas / design patterns
-- Demonstração de boa gestão do estado do app
-
-****
-
-## Pontos extras
-- Uso de frameworks / libs
-- Testes
-- Componetização do app
-- Uso de linters
-****
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
