@@ -20,9 +20,8 @@ export const youtubeApi = createApi({
         if (pageToken) params.set('pageToken', pageToken);
         return `search?${params.toString()}`;
       },
-      // optionally transformResponse to a cleaner shape
     }),
-    getVideosByIds: builder.query<unknown, string>({ // pass comma-separated ids
+    getVideosByIds: builder.query<unknown, string>({
       query: (ids) => {
         const params = new URLSearchParams({
           key: API_KEY,

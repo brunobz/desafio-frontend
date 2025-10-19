@@ -1,5 +1,5 @@
-export interface YoutubeVideo {
-  id: { videoId: string } | string;
+export interface YouTubeVideo {
+  id: string | { videoId: string };
   snippet: {
     title: string;
     description: string;
@@ -18,5 +18,5 @@ export interface YoutubeSearchResponse {
   etag?: string;
   nextPageToken?: string;
   prevPageToken?: string;
-  items: YoutubeVideo[];
+  items: YouTubeVideo[];
 }
