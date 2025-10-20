@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+interface SearchState {
+  history: string[];
+  lastQuery: string | null;
+}
+
 const LOCAL_KEY = 'search_history_v1';
 
 const loadHistory = (): string[] => {
@@ -21,11 +26,6 @@ const saveHistory = (items: string[]) => {
   }
 };
 
-interface SearchState {
-  history: string[];
-  lastQuery: string | null;
-}
-
 const initialState: SearchState = {
   history: loadHistory(),
   lastQuery: null,
@@ -38,8 +38,7 @@ const slice = createSlice({
     addToHistory(state, action: PayloadAction<string>) {
       const value = action.payload.trim();
       if (!value) return;
-      // dedupe and move to front
-      state.history = [value, ...state.history.filter((h) => h !== value)].slice(0, 20);
+      state.history = [value, ...state.history.filter((h) => h !== value)].slice(0, 10);
       saveHistory(state.history);
     },
     clearHistory(state) {
