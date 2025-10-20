@@ -66,7 +66,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
         </button>
       </div>
 
-      {/* Sugestões do histórico */}
+      {/* History Suggestions */}
       {showSuggestions && history.length > 0 && (
         <ul
           className="absolute z-10 bg-white border border-gray-200 rounded-lg mt-1 w-full max-h-48 overflow-y-auto shadow-md"
