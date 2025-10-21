@@ -8,6 +8,7 @@ import type { YouTubeVideo } from '../../types/youtube';
 import { LoaderCircle } from 'lucide-react';
 import { getVideoId } from '../../utils/getVideoId';
 import { AuthButton } from '../auth/AuthButton';
+import { ErrorPage } from '../../components/ErrorPage';
 
 export const Home: React.FC = () => {
   const [query, setQuery] = useState('React tutorials');
@@ -29,9 +30,7 @@ export const Home: React.FC = () => {
 
   if (error)
     return (
-      <p role="alert" className="text-center text-red-500 mt-10">
-        Something went wrong while loading videos.
-      </p>
+     <ErrorPage />
     );
 
   if (!data || !data.items.length)
