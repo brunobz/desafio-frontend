@@ -57,6 +57,8 @@ npm install
 # 3. Set environment variables
 cp .env.local .env
 # Add your YouTube API key and OAuth credentials
+# VITE_YT_API_KEY
+# VITE_GOOGLE_OAUTH_CLIENT_ID
 
 # 4. Run the local server
 npm run dev
