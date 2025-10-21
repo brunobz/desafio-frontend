@@ -1,73 +1,104 @@
-# React + TypeScript + Vite
+# 🎥 YouTube Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web app built with **React + TypeScript** that allows users to search, watch, and explore YouTube videos, featuring a search history, integrated player, and Google OAuth2 authentication.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## React Compiler
+- ⚛️ **React 19** — UI library for building interactive interfaces
+- ⚡ **Vite** — Next-generation, blazing-fast build tool
+- 🟦 **TypeScript** — Type-safe development for scalability and reliability
+- 🧰 **Redux Toolkit** — Simplified global state management
+- 📡 **Axios** — API requests and HTTP communication
+- 🧪 **React Testing Library + Vitest** — Unit and integration testing
+- 🎨 **Tailwind CSS** — Modern utility-first CSS framework
+- 🔍 **YouTube Data API v3 + OAuth2** — Secure search and authentication via Google
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### ✅ Core Requirements Implemented
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 🔎 **Video search** by keyword using YouTube API
+- 🏠 **Home page** displaying the main video player and related/recommended sections
+- 🧩 **State management** with Redux Toolkit for predictable and performant updates
+- 🕓 **Persistent search history** stored locally (via `localStorage`)
+- 🧱 **Componentized architecture** with clear separation of concerns
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 🌟 Extra Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- 🔐 **Google Login (OAuth2)** for authenticated access to YouTube API
+  > ⚠️ **Note:** To fully access OAuth2 login, the tester’s email must be pre-approved.  
+  > Please contact the developer to have your email added to the whitelist.
+- 🧪 **Unit tests** with Vitest and React Testing Library
+- ♿ **Basic accessibility support** (ARIA roles, loading states, keyboard navigation)
+
+---
+
+## ⚙️ Setup & Installation
+
+### 🔧 Prerequisites
+
+- Node.js 18+
+- A valid **YouTube Data API v3 key**
+
+### 💻 Steps
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/brunobz/desafio-frontend.git
+cd desafio-frontend
+
+# 2. Install dependencies
+npm install
+
+# 3. Set environment variables
+cp .env.local .env
+# Add your YouTube API key and OAuth credentials
+
+# 4. Run the local server
+npm run dev
+
+# 5. Open in browser
+http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🧪 Testing
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Run all unit tests with:
+
+```bash
+npm run test
 ```
+
+Tests cover:
+
+- Rendering and logic of the `Home` component
+- `SearchBar` interactions (input, history, submission)
+- Mocked YouTube API calls (`useSearchVideosQuery`)
+- Accessibility checks (roles and feedback messages)
+
+---
+
+## 🔐 OAuth2 & Google Login
+
+This project integrates **OAuth2 authentication** for YouTube API access.  
+Due to Google API restrictions, **the tester’s email must be whitelisted** for authentication to work.
+
+> 🔒 To gain full access to the OAuth2 flow, please contact the developer to have your email added to the test users list.
+
+---
+
+## 👨‍💻 Developer
+
+**Bruno Bianchini Zandavalle** — Frontend Engineer  
+💼 Experienced in React, TypeScript, and Scalable Architecture  
+🌐 [LinkedIn](https://www.linkedin.com/in/bruno-bianchini-zandavalle/) • [GitHub](https://github.com/brunobz)
+
+---
+
+> This project was built as part of a **Frontend Engineer technical assessment**, focusing on clean code, accessibility, and modern React best practices.

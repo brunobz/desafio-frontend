@@ -1,35 +1,42 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { describe, it, vi, beforeEach, expect } from 'vitest';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import type { Middleware } from '@reduxjs/toolkit';
-import { Home } from './Home';
 import searchReducer from '../../features/search/searchSlice';
+import { youtubeApi, useSearchVideosQuery } from '../../services/youtubeApi';
+import { Home } from './Home';
 
-vi.mock('../../services/youtubeApi', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../../services/youtubeApi')>();
-
-  const mockUseSearchVideosQuery = vi.fn();
-
-  const mockMiddleware: Middleware = () => (next) => (action) => next(action);
-
-  const mockYoutubeApi = {
-    ...actual.youtubeApi,
-    reducerPath: 'youtubeApi',
-    reducer: (state = {}) => state,
-    middleware: mockMiddleware,
-    useSearchVideosQuery: mockUseSearchVideosQuery,
-  };
-
+vi.mock('react-redux', async () => {
+  const actual = await vi.importActual<typeof import('react-redux')>('react-redux');
   return {
     ...actual,
-    youtubeApi: mockYoutubeApi,
-    useSearchVideosQuery: mockUseSearchVideosQuery, // 👈 ESSENCIAL: export nomeado
+    useSelector: vi
+      .fn()
+      .mockImplementation((selector) =>
+        selector({ auth: { token: null }, search: { history: [] } }),
+      ),
+    useDispatch: vi.fn().mockReturnValue(vi.fn()),
   };
 });
 
-import { youtubeApi, useSearchVideosQuery } from '../../services/youtubeApi';
+vi.mock('@react-oauth/google', async () => {
+  const actual = await vi.importActual('@react-oauth/google');
+  return {
+    ...actual,
+    useGoogleLogin: () => vi.fn(), // mock apenas para não quebrar
+  };
+});
+
+vi.mock('../../services/youtubeApi', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../services/youtubeApi')>();
+  const mockUseSearchVideosQuery = vi.fn();
+
+  return {
+    ...actual,
+    useSearchVideosQuery: mockUseSearchVideosQuery,
+  };
+});
 
 const mockUseSearchVideosQuery = useSearchVideosQuery as unknown as ReturnType<typeof vi.fn>;
 
@@ -39,6 +46,9 @@ const renderWithProviders = (ui: React.ReactElement) => {
       [youtubeApi.reducerPath]: youtubeApi.reducer,
       search: searchReducer,
     },
+    preloadedState: {
+      search: { history: [], lastQuery: '' },
+    },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(youtubeApi.middleware),
   });
 
@@ -46,10 +56,6 @@ const renderWithProviders = (ui: React.ReactElement) => {
 };
 
 describe('Home Component', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   const mockVideos = {
     items: [
       {
@@ -74,6 +80,10 @@ describe('Home Component', () => {
       },
     ],
   };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('renders loading state', () => {
     mockUseSearchVideosQuery.mockReturnValue({
@@ -121,9 +131,10 @@ describe('Home Component', () => {
     });
 
     renderWithProviders(<Home />);
+
     expect(screen.getByLabelText(/main video player/i)).toBeInTheDocument();
     expect(screen.getByText('React Tutorial')).toBeInTheDocument();
-    expect(screen.getByLabelText(/related videos/i)).toBeInTheDocument();
+    expect(screen.getAllByLabelText(/related videos/i)[0]).toBeInTheDocument();
     expect(screen.getByLabelText(/recommended videos/i)).toBeInTheDocument();
   });
 

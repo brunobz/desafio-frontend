@@ -7,6 +7,7 @@ import { useSearchVideosQuery } from '../../services/youtubeApi';
 import type { YouTubeVideo } from '../../types/youtube';
 import { LoaderCircle } from 'lucide-react';
 import { getVideoId } from '../../utils/getVideoId';
+import { AuthButton } from '../auth/AuthButton';
 
 export const Home: React.FC = () => {
   const [query, setQuery] = useState('React tutorials');
@@ -46,14 +47,24 @@ export const Home: React.FC = () => {
     <main className="max-w-6xl mx-auto p-4 grid grid-cols-12 gap-4" role="main">
       {/* Header */}
       <header
-        className="col-span-12 md:col-span-8 flex items-center justify-between"
+        className="col-span-12 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 py-2"
         aria-label="YouTube header"
       >
-        <h1 className="text-2xl font-bold text-red-600" aria-label="YouTube logo">
-          YouTube
-        </h1>
-        <div className="flex-1 ml-4">
-          <SearchBar onSubmit={submitSearch} />
+        <div className="flex flex-1 items-center gap-4 w-full md:w-auto">
+          <h1
+            className="text-2xl font-bold text-red-600 whitespace-nowrap"
+            aria-label="YouTube logo"
+          >
+            YouTube
+          </h1>
+
+          <div className="flex-1 max-w-full md:max-w-[520px]">
+            <SearchBar onSubmit={submitSearch} />
+          </div>
+        </div>
+
+        <div className="flex-shrink-0 mt-2 md:mt-0">
+          <AuthButton />
         </div>
       </header>
 

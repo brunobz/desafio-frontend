@@ -4,11 +4,14 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import './index.css';
+import { GoogleAuthProvider } from './features/auth/GoogleAuthProvider';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <GoogleAuthProvider>
+        <App />
+      </GoogleAuthProvider>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
